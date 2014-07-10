@@ -89,8 +89,18 @@ static void *VMBrushImageViewContext = nil;
     _maskImage = [self genMaskImageFor:_rawImage];
     [super setImage:[self compositeMask:_maskImage over:_rawImage]];
     self.frame = CGRectMake(0, 0, _rawImage.size.width, _rawImage.size.height);
-    self.bounds = CGRectMake(0, 0, _rawImage.size.width, _rawImage.size.height);
+    self.bounds = CGRectMake(0, 0, _rawImage.size.width, _rawImage.size.height);\
     [self needsDisplay];
+}
+
+- (void)increaseBrushRadius:(float)increment
+{
+    self.brushRadius += increment;
+}
+
+- (void)decreaseBrushRadius:(float)decrement
+{
+    self.brushRadius -= decrement;
 }
 
 #pragma mark -
@@ -194,9 +204,14 @@ static void *VMBrushImageViewContext = nil;
 
 - (NSImage *)lineOn:(NSImage *)image from:(CGPoint)start to:(CGPoint)end radius:(float)radius type:(BrushType)type
 {
-    NSLog(@"Image Size: %f %f | View Size: %f %f | Ratio: %f %f", image.size.width, image.size.height, self.bounds.size.width, self.bounds.size.height, image.size.width / self.bounds.size.width, image.size.height / self.bounds.size.height);
+    CGFloat magnification = 1.0f;
+    if (([self.superview isKindOfClass:[NSClipView class]]) &&
+         ([self.superview.superview isKindOfClass:[NSScrollView class]])) {
+        NSScrollView *scrollView = (NSScrollView *)self.superview.superview;
+        magnification = scrollView.magnification;
+    }
 
-    radius = roundf(radius);
+    radius = roundf(radius) / magnification;
     start.x = roundf(start.x);
     start.y = roundf(start.y);
     end.x = roundf(end.x);

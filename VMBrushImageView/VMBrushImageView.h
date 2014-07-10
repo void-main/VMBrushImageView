@@ -14,6 +14,12 @@ typedef enum : NSUInteger {
     Eraser,
 } BrushType;
 
+typedef enum : NSUInteger {
+    Checkerboard,
+    PureColor,
+    Custom,
+} BackgroundType;
+
 @interface VMBrushImageView : NSImageView {
     NSImage *_rawImage;
     NSImage *_maskImage;
@@ -27,5 +33,8 @@ typedef enum : NSUInteger {
 @property BrushType brushType;
 
 - (void)setImage:(NSImage *)image;
+
+- (void)increaseBrushRadius:(float)increment;
+- (void)decreaseBrushRadius:(float)decrement;
 
 @end

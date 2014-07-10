@@ -26,4 +26,12 @@
     }
 }
 
+- (IBAction)increaseBrushSize:(id)sender {
+    [self.brushImageView increaseBrushRadius:2];
+}
+
+- (IBAction)decreaseBrushSize:(id)sender {
+    [self.brushImageView decreaseBrushRadius:2];
+}
+
 @end
