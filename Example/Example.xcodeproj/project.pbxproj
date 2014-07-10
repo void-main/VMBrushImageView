@@ -1,0 +1,517 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DFD47DC0196E233800B84D86 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD47DBF196E233800B84D86 /* Cocoa.framework */; };
+		DFD47DCA196E233800B84D86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DFD47DC8196E233800B84D86 /* InfoPlist.strings */; };
+		DFD47DCC196E233800B84D86 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD47DCB196E233800B84D86 /* main.m */; };
+		DFD47DD0196E233800B84D86 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = DFD47DCE196E233800B84D86 /* Credits.rtf */; };
+		DFD47DD3196E233800B84D86 /* VMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD47DD2196E233800B84D86 /* VMAppDelegate.m */; };
+		DFD47DD6196E233800B84D86 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = DFD47DD4196E233800B84D86 /* MainMenu.xib */; };
+		DFD47DD8196E233800B84D86 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DFD47DD7196E233800B84D86 /* Images.xcassets */; };
+		DFD47DDF196E233800B84D86 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD47DDE196E233800B84D86 /* XCTest.framework */; };
+		DFD47DE0196E233800B84D86 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD47DBF196E233800B84D86 /* Cocoa.framework */; };
+		DFD47DE8196E233800B84D86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DFD47DE6196E233800B84D86 /* InfoPlist.strings */; };
+		DFD47DEA196E233800B84D86 /* ExampleTests.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD47DE9196E233800B84D86 /* ExampleTests.m */; };
+		DFD47DF9196E23B200B84D86 /* VMBrushImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD47DF8196E23B200B84D86 /* VMBrushImageView.m */; };
+		DFD47DFC196E283500B84D86 /* NSImage+BitmapRep.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD47DFB196E283500B84D86 /* NSImage+BitmapRep.m */; };
+		DFD47E03196E9CE700B84D86 /* VMCenteringClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD47E02196E9CE700B84D86 /* VMCenteringClipView.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DFD47DE1196E233800B84D86 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DFD47DB4196E233800B84D86 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DFD47DBB196E233800B84D86;
+			remoteInfo = Example;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		DFD47DBC196E233800B84D86 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFD47DBF196E233800B84D86 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		DFD47DC2196E233800B84D86 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		DFD47DC3196E233800B84D86 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		DFD47DC4196E233800B84D86 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		DFD47DC7196E233800B84D86 /* Example-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Example-Info.plist"; sourceTree = "<group>"; };
+		DFD47DC9196E233800B84D86 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DFD47DCB196E233800B84D86 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		DFD47DCD196E233800B84D86 /* Example-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Example-Prefix.pch"; sourceTree = "<group>"; };
+		DFD47DCF196E233800B84D86 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		DFD47DD1196E233800B84D86 /* VMAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VMAppDelegate.h; sourceTree = "<group>"; };
+		DFD47DD2196E233800B84D86 /* VMAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VMAppDelegate.m; sourceTree = "<group>"; };
+		DFD47DD5196E233800B84D86 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		DFD47DD7196E233800B84D86 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		DFD47DDD196E233800B84D86 /* ExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DFD47DDE196E233800B84D86 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		DFD47DE5196E233800B84D86 /* ExampleTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "ExampleTests-Info.plist"; sourceTree = "<group>"; };
+		DFD47DE7196E233800B84D86 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		DFD47DE9196E233800B84D86 /* ExampleTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExampleTests.m; sourceTree = "<group>"; };
+		DFD47DF7196E23B200B84D86 /* VMBrushImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMBrushImageView.h; sourceTree = "<group>"; };
+		DFD47DF8196E23B200B84D86 /* VMBrushImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMBrushImageView.m; sourceTree = "<group>"; };
+		DFD47DFA196E283500B84D86 /* NSImage+BitmapRep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSImage+BitmapRep.h"; sourceTree = "<group>"; };
+		DFD47DFB196E283500B84D86 /* NSImage+BitmapRep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+BitmapRep.m"; sourceTree = "<group>"; };
+		DFD47E01196E9CE700B84D86 /* VMCenteringClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCenteringClipView.h; sourceTree = "<group>"; };
+		DFD47E02196E9CE700B84D86 /* VMCenteringClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCenteringClipView.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DFD47DB9196E233800B84D86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DFD47DC0196E233800B84D86 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DFD47DDA196E233800B84D86 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DFD47DE0196E233800B84D86 /* Cocoa.framework in Frameworks */,
+				DFD47DDF196E233800B84D86 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DFD47DB3196E233800B84D86 = {
+			isa = PBXGroup;
+			children = (
+				DFD47DC5196E233800B84D86 /* Example */,
+				DFD47DE3196E233800B84D86 /* ExampleTests */,
+				DFD47DBE196E233800B84D86 /* Frameworks */,
+				DFD47DBD196E233800B84D86 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DFD47DBD196E233800B84D86 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DFD47DBC196E233800B84D86 /* Example.app */,
+				DFD47DDD196E233800B84D86 /* ExampleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DFD47DBE196E233800B84D86 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DFD47DBF196E233800B84D86 /* Cocoa.framework */,
+				DFD47DDE196E233800B84D86 /* XCTest.framework */,
+				DFD47DC1196E233800B84D86 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DFD47DC1196E233800B84D86 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DFD47DC2196E233800B84D86 /* AppKit.framework */,
+				DFD47DC3196E233800B84D86 /* CoreData.framework */,
+				DFD47DC4196E233800B84D86 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		DFD47DC5196E233800B84D86 /* Example */ = {
+			isa = PBXGroup;
+			children = (
+				DFD47E00196E9CAC00B84D86 /* Scroll Image */,
+				DFD47DF6196E23B200B84D86 /* VMBrushImageView */,
+				DFD47DD1196E233800B84D86 /* VMAppDelegate.h */,
+				DFD47DD2196E233800B84D86 /* VMAppDelegate.m */,
+				DFD47DD4196E233800B84D86 /* MainMenu.xib */,
+				DFD47DD7196E233800B84D86 /* Images.xcassets */,
+				DFD47DC6196E233800B84D86 /* Supporting Files */,
+			);
+			path = Example;
+			sourceTree = "<group>";
+		};
+		DFD47DC6196E233800B84D86 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DFD47DC7196E233800B84D86 /* Example-Info.plist */,
+				DFD47DC8196E233800B84D86 /* InfoPlist.strings */,
+				DFD47DCB196E233800B84D86 /* main.m */,
+				DFD47DCD196E233800B84D86 /* Example-Prefix.pch */,
+				DFD47DCE196E233800B84D86 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DFD47DE3196E233800B84D86 /* ExampleTests */ = {
+			isa = PBXGroup;
+			children = (
+				DFD47DE9196E233800B84D86 /* ExampleTests.m */,
+				DFD47DE4196E233800B84D86 /* Supporting Files */,
+			);
+			path = ExampleTests;
+			sourceTree = "<group>";
+		};
+		DFD47DE4196E233800B84D86 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				DFD47DE5196E233800B84D86 /* ExampleTests-Info.plist */,
+				DFD47DE6196E233800B84D86 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		DFD47DF6196E23B200B84D86 /* VMBrushImageView */ = {
+			isa = PBXGroup;
+			children = (
+				DFD47DFA196E283500B84D86 /* NSImage+BitmapRep.h */,
+				DFD47DFB196E283500B84D86 /* NSImage+BitmapRep.m */,
+				DFD47DF7196E23B200B84D86 /* VMBrushImageView.h */,
+				DFD47DF8196E23B200B84D86 /* VMBrushImageView.m */,
+			);
+			name = VMBrushImageView;
+			path = ../../VMBrushImageView;
+			sourceTree = "<group>";
+		};
+		DFD47E00196E9CAC00B84D86 /* Scroll Image */ = {
+			isa = PBXGroup;
+			children = (
+				DFD47E01196E9CE700B84D86 /* VMCenteringClipView.h */,
+				DFD47E02196E9CE700B84D86 /* VMCenteringClipView.m */,
+			);
+			name = "Scroll Image";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DFD47DBB196E233800B84D86 /* Example */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DFD47DED196E233800B84D86 /* Build configuration list for PBXNativeTarget "Example" */;
+			buildPhases = (
+				DFD47DB8196E233800B84D86 /* Sources */,
+				DFD47DB9196E233800B84D86 /* Frameworks */,
+				DFD47DBA196E233800B84D86 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Example;
+			productName = Example;
+			productReference = DFD47DBC196E233800B84D86 /* Example.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DFD47DDC196E233800B84D86 /* ExampleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DFD47DF0196E233800B84D86 /* Build configuration list for PBXNativeTarget "ExampleTests" */;
+			buildPhases = (
+				DFD47DD9196E233800B84D86 /* Sources */,
+				DFD47DDA196E233800B84D86 /* Frameworks */,
+				DFD47DDB196E233800B84D86 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DFD47DE2196E233800B84D86 /* PBXTargetDependency */,
+			);
+			name = ExampleTests;
+			productName = ExampleTests;
+			productReference = DFD47DDD196E233800B84D86 /* ExampleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DFD47DB4196E233800B84D86 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = VM;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Void Main";
+				TargetAttributes = {
+					DFD47DDC196E233800B84D86 = {
+						TestTargetID = DFD47DBB196E233800B84D86;
+					};
+				};
+			};
+			buildConfigurationList = DFD47DB7196E233800B84D86 /* Build configuration list for PBXProject "Example" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = DFD47DB3196E233800B84D86;
+			productRefGroup = DFD47DBD196E233800B84D86 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DFD47DBB196E233800B84D86 /* Example */,
+				DFD47DDC196E233800B84D86 /* ExampleTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DFD47DBA196E233800B84D86 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DFD47DCA196E233800B84D86 /* InfoPlist.strings in Resources */,
+				DFD47DD8196E233800B84D86 /* Images.xcassets in Resources */,
+				DFD47DD0196E233800B84D86 /* Credits.rtf in Resources */,
+				DFD47DD6196E233800B84D86 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DFD47DDB196E233800B84D86 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DFD47DE8196E233800B84D86 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DFD47DB8196E233800B84D86 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DFD47E03196E9CE700B84D86 /* VMCenteringClipView.m in Sources */,
+				DFD47DCC196E233800B84D86 /* main.m in Sources */,
+				DFD47DFC196E283500B84D86 /* NSImage+BitmapRep.m in Sources */,
+				DFD47DD3196E233800B84D86 /* VMAppDelegate.m in Sources */,
+				DFD47DF9196E23B200B84D86 /* VMBrushImageView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DFD47DD9196E233800B84D86 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DFD47DEA196E233800B84D86 /* ExampleTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DFD47DE2196E233800B84D86 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DFD47DBB196E233800B84D86 /* Example */;
+			targetProxy = DFD47DE1196E233800B84D86 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		DFD47DC8196E233800B84D86 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DFD47DC9196E233800B84D86 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		DFD47DCE196E233800B84D86 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DFD47DCF196E233800B84D86 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		DFD47DD4196E233800B84D86 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DFD47DD5196E233800B84D86 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		DFD47DE6196E233800B84D86 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DFD47DE7196E233800B84D86 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		DFD47DEB196E233800B84D86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DFD47DEC196E233800B84D86 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DFD47DEE196E233800B84D86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
+				INFOPLIST_FILE = "Example/Example-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		DFD47DEF196E233800B84D86 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
+				INFOPLIST_FILE = "Example/Example-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		DFD47DF1196E233800B84D86 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Example.app/Contents/MacOS/Example";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "ExampleTests/ExampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		DFD47DF2196E233800B84D86 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Example.app/Contents/MacOS/Example";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Example/Example-Prefix.pch";
+				INFOPLIST_FILE = "ExampleTests/ExampleTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DFD47DB7196E233800B84D86 /* Build configuration list for PBXProject "Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DFD47DEB196E233800B84D86 /* Debug */,
+				DFD47DEC196E233800B84D86 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DFD47DED196E233800B84D86 /* Build configuration list for PBXNativeTarget "Example" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DFD47DEE196E233800B84D86 /* Debug */,
+				DFD47DEF196E233800B84D86 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		DFD47DF0196E233800B84D86 /* Build configuration list for PBXNativeTarget "ExampleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DFD47DF1196E233800B84D86 /* Debug */,
+				DFD47DF2196E233800B84D86 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DFD47DB4196E233800B84D86 /* Project object */;
+}
