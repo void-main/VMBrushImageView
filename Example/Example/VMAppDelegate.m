@@ -34,4 +34,8 @@
     [self.brushImageView decreaseBrushRadius:2];
 }
 
+- (IBAction)changeBrushType:(id)sender {
+    [self.brushImageView setBrushType:[sender tag]];
+}
+
 @end

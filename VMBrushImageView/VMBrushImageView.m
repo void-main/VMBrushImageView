@@ -8,12 +8,19 @@
 
 #import "VMBrushImageView.h"
 #import "NSImage+BitmapRep.h"
+#import "VMBrushMaskPreprocessFilter.h"
 
 @interface VMBrushImageView (Mask)
 
 - (NSImage *)genMaskImageFor:(NSImage *)image;
 - (NSImage *)compositeMask:(NSImage *)mask over:(NSImage *)image;
-- (NSImage *)lineOn:(NSImage *)image from:(CGPoint)start to:(CGPoint)end radius:(float)radius type:(BrushType)type;
+- (NSImage *)scribbleOn:(NSImage *)image from:(CGPoint)start to:(CGPoint)end radius:(float)radius type:(BrushType)type;
+
+@end
+
+@interface VMBrushImageView (ViewHierarchy)
+
+- (NSScrollView *)parentScrollView;
 
 @end
 
@@ -31,11 +38,15 @@ static void *VMBrushImageViewContext = nil;
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
+        self.previewType = BrushScribbles;
         self.brushType = Foreground;
         self.brushRadius = 10;
 
         [self addObserver:self forKeyPath:@"brushType" options:NSKeyValueObservingOptionNew context:&VMBrushImageViewContext];
         [self addObserver:self forKeyPath:@"brushRadius" options:NSKeyValueObservingOptionNew context:&VMBrushImageViewContext];
+
+        // Invoke +initialize
+        [VMBrushPreprocessFilter class];
     }
     return self;
 }
@@ -59,7 +70,7 @@ static void *VMBrushImageViewContext = nil;
 {
     CGPoint point = [theEvent locationInWindow];
     point = [self convertPoint:point fromView:nil];
-    _maskImage = [self lineOn:_maskImage from:point to:point radius:self.brushRadius type:self.brushType];
+    _maskImage = [self scribbleOn:_maskImage from:point to:point radius:self.brushRadius type:self.brushType];
     _lastPoint = point;
 
     [super setImage:[self compositeMask:_maskImage over:_rawImage]];
@@ -70,7 +81,7 @@ static void *VMBrushImageViewContext = nil;
 {
     CGPoint point = [theEvent locationInWindow];
     point = [self convertPoint:point fromView:nil];
-    _maskImage = [self lineOn:_maskImage from:_lastPoint to:point radius:self.brushRadius type:self.brushType];
+    _maskImage = [self scribbleOn:_maskImage from:_lastPoint to:point radius:self.brushRadius type:self.brushType];
     _lastPoint = point;
 
     [super setImage:[self compositeMask:_maskImage over:_rawImage]];
@@ -89,7 +100,8 @@ static void *VMBrushImageViewContext = nil;
     _maskImage = [self genMaskImageFor:_rawImage];
     [super setImage:[self compositeMask:_maskImage over:_rawImage]];
     self.frame = CGRectMake(0, 0, _rawImage.size.width, _rawImage.size.height);
-    self.bounds = CGRectMake(0, 0, _rawImage.size.width, _rawImage.size.height);\
+    self.bounds = CGRectMake(0, 0, _rawImage.size.width, _rawImage.size.height);
+
     [self needsDisplay];
 }
 
@@ -132,13 +144,13 @@ static void *VMBrushImageViewContext = nil;
     NSColor *cursorColor = nil;
     switch (self.brushType) {
         case Foreground:
-            cursorColor = [NSColor greenColor];
+            cursorColor = kForegroundColor;
             break;
         case Background:
-            cursorColor = [NSColor redColor];
+            cursorColor = kBackgroundColor;
             break;
         default:
-            cursorColor = [NSColor whiteColor];
+            cursorColor = kEraserColor;
             break;
     }
 
@@ -184,7 +196,7 @@ static void *VMBrushImageViewContext = nil;
 
     NSImage* resultImage = [[NSImage alloc] initWithSize:size];
     [resultImage lockFocus];
-    [[NSColor colorWithSRGBRed:0 green:0 blue:0 alpha:0] set];
+    [kEraserColor set];
     NSRectFill(CGRectMake(0, 0, size.width, size.height));
     [resultImage unlockFocus];
 
@@ -196,18 +208,31 @@ static void *VMBrushImageViewContext = nil;
     NSImage *result = [[NSImage alloc] initWithSize:image.size];
     [result lockFocus];
     [image drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+
+    @autoreleasepool {
+        CIImage *maskRaw = [[CIImage alloc] initWithBitmapImageRep:[mask bitmapImageRepresentation]];
+        CIFilter *filter = [CIFilter filterWithName:@"VMBrushMaskPreprocessFilter"];
+        [filter setDefaults];
+        [filter setValue:maskRaw forKey:@"inputImage"];
+        CIImage *result = [filter valueForKey:@"outputImage"];
+
+        NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:result];
+        mask = [[NSImage alloc] initWithSize:rep.size];
+        [mask addRepresentation:rep];
+    }
+
     [mask drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:0.5];
     [result unlockFocus];
 
     return result;
 }
 
-- (NSImage *)lineOn:(NSImage *)image from:(CGPoint)start to:(CGPoint)end radius:(float)radius type:(BrushType)type
+- (NSImage *)scribbleOn:(NSImage *)image from:(CGPoint)start to:(CGPoint)end radius:(float)radius type:(BrushType)type
 {
     CGFloat magnification = 1.0f;
-    if (([self.superview isKindOfClass:[NSClipView class]]) &&
-         ([self.superview.superview isKindOfClass:[NSScrollView class]])) {
-        NSScrollView *scrollView = (NSScrollView *)self.superview.superview;
+
+    NSScrollView *scrollView = [self parentScrollView];
+    if (scrollView) {
         magnification = scrollView.magnification;
     }
 
@@ -228,13 +253,13 @@ static void *VMBrushImageViewContext = nil;
     // Set the color in the current graphics context for future draw operations
     switch (type) {
         case Foreground:
-            [[NSColor greenColor] set];
+            [kForegroundColor set];
             break;
         case Background:
-            [[NSColor redColor] set];
+            [kBackgroundColor set];
             break;
         default:
-            [[NSColor clearColor] set];
+            [kEraserColor set];
             break;
     }
 
@@ -261,6 +286,19 @@ static void *VMBrushImageViewContext = nil;
     [image unlockFocus];
 
     return image;
+}
+
+#pragma mark -
+#pragma mark View Hierarchy
+- (NSScrollView *)parentScrollView
+{
+    if (([self.superview isKindOfClass:[NSClipView class]]) &&
+        ([self.superview.superview isKindOfClass:[NSScrollView class]])) {
+        NSScrollView *scrollView = (NSScrollView *)self.superview.superview;
+        return scrollView;
+    }
+
+    return nil;
 }
 
 @end

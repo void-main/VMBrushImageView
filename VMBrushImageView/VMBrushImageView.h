@@ -8,17 +8,22 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define kForegroundColor  [NSColor greenColor]
+#define kBackgroundColor  [NSColor redColor]
+#define kEraserColor      [NSColor whiteColor]
+
 typedef enum : NSUInteger {
-    Foreground,
-    Background,
-    Eraser,
+    Foreground = 0,
+    Background = 1,
+    Eraser     = 2,
 } BrushType;
 
 typedef enum : NSUInteger {
+    BrushScribbles,
     Checkerboard,
     PureColor,
     Custom,
-} BackgroundType;
+} PreviewType;
 
 @interface VMBrushImageView : NSImageView {
     NSImage *_rawImage;
@@ -31,6 +36,7 @@ typedef enum : NSUInteger {
 
 @property float brushRadius;
 @property BrushType brushType;
+@property PreviewType previewType;
 
 - (void)setImage:(NSImage *)image;
 

@@ -154,6 +154,22 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="D3o-3a-FUV"/>
+                            <menuItem title="Foreground" keyEquivalent="F" id="yqh-Vy-Cmf">
+                                <connections>
+                                    <action selector="changeBrushType:" target="Voe-Tx-rLC" id="f5Y-Ai-IDi"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Background" tag="1" keyEquivalent="B" id="pcT-2N-pIe">
+                                <connections>
+                                    <action selector="changeBrushType:" target="Voe-Tx-rLC" id="me1-40-20w"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Eraser" tag="2" keyEquivalent="E" id="ilu-vo-VkE">
+                                <connections>
+                                    <action selector="changeBrushType:" target="Voe-Tx-rLC" id="QHP-BY-Wdm"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="iDS-mR-6ds"/>
                             <menuItem title="Cut" keyEquivalent="x" id="uRl-iY-unG">
                                 <connections>
                                     <action selector="cut:" target="-1" id="YJe-68-I9s"/>
@@ -425,7 +441,7 @@
                 <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pPa-rM-2rV">
+                    <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" allowsMagnification="YES" minMagnification="0.10000000000000001" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pPa-rM-2rV">
                         <rect key="frame" x="0.0" y="0.0" width="800" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="nE8-HH-zbq" customClass="VMCenteringClipView">
