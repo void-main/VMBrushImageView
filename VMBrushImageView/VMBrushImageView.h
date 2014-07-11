@@ -19,18 +19,12 @@ typedef enum : NSUInteger {
     Eraser     = 2,
 } BrushType;
 
-typedef enum : NSUInteger {
-    BrushScribbles,
-    Checkerboard,
-    PureColor,
-    Custom,
-} PreviewType;
+typedef NSImage *(^ImageOperationBlock)(NSImage *inputImage);
 
 @interface VMBrushImageView : NSImageView {
     NSImageView *_scribbleView;
 
     NSImage *_rawImage;
-    NSBitmapImageRep *_rawRep;
     NSBitmapImageRep *_maskRep;
 
     NSCursor *_brushCursor;
@@ -40,12 +34,17 @@ typedef enum : NSUInteger {
 }
 
 @property float brushRadius;
+@property float maxBrushRadius;
+@property float minBrushRadius;
 @property BrushType brushType;
-@property PreviewType previewType;
 
 - (void)setRawImage:(NSImage *)image;
 
 - (void)increaseBrushRadius:(float)increment;
 - (void)decreaseBrushRadius:(float)decrement;
+
+- (void)resetMask;
+
+- (NSImage *)outMask:(ImageOperationBlock)imageOperationBlock;
 
 @end

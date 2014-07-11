@@ -12,7 +12,6 @@
 @interface VMBrushImageView (Mask)
 
 - (void)createMaskImageFor:(NSImage *)image;
-//- (NSImage *)compositeMaskOver:(NSImage *)image;
 - (void)scribbleFrom:(CGPoint)start to:(CGPoint)end radius:(float)radius type:(BrushType)type;
 
 @end
@@ -37,9 +36,10 @@ static void *VMBrushImageViewContext = nil;
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        self.previewType = BrushScribbles;
         self.brushType = Foreground;
         self.brushRadius = 10;
+        self.maxBrushRadius = 40;
+        self.minBrushRadius = 2;
 
         _scribbleView = [[NSImageView alloc] initWithFrame:self.bounds];
         [_scribbleView setTranslatesAutoresizingMaskIntoConstraints:NO];
@@ -126,7 +126,6 @@ static void *VMBrushImageViewContext = nil;
 
             lastPoint = newPoint;
             dispatch_async(dispatch_get_main_queue(), ^{
-//                self.image = [self compositeMaskOver:_rawImage];
                 _scribbleView.image = [[NSImage alloc] initWithCGImage:[_maskRep CGImage] size:_maskRep.size];
             });
         } else {
@@ -153,11 +152,32 @@ static void *VMBrushImageViewContext = nil;
 - (void)increaseBrushRadius:(float)increment
 {
     self.brushRadius += increment;
+    if (self.brushRadius > self.maxBrushRadius) self.brushRadius = self.maxBrushRadius;
 }
 
 - (void)decreaseBrushRadius:(float)decrement
 {
     self.brushRadius -= decrement;
+    if (self.brushRadius < self.minBrushRadius) self.brushRadius = self.minBrushRadius;
+}
+
+- (void)resetMask {
+    @autoreleasepool {
+        // Get the graphics context that we are currently executing under
+        NSGraphicsContext* bitmapGraphicsContext = [NSGraphicsContext graphicsContextWithBitmapImageRep:_maskRep];
+        [NSGraphicsContext saveGraphicsState];
+        [NSGraphicsContext setCurrentContext:bitmapGraphicsContext];
+
+        [kEraserColor set];
+        NSRectFill(NSMakeRect(0, 0, _maskRep.size.width, _maskRep.size.height));
+
+        [bitmapGraphicsContext flushGraphics];
+        [NSGraphicsContext restoreGraphicsState];
+
+        bitmapGraphicsContext = nil;
+    }
+
+    _scribbleView.image = [[NSImage alloc] initWithCGImage:[_maskRep CGImage] size:_maskRep.size];
 }
 
 #pragma mark -
@@ -236,7 +256,6 @@ static void *VMBrushImageViewContext = nil;
     CGSize size;
     @autoreleasepool {
         NSBitmapImageRep *rep = [image bitmapImageRepresentation];
-        _rawRep = [rep copy];
         size = rep.size;
     }
 
@@ -249,39 +268,33 @@ static void *VMBrushImageViewContext = nil;
     _maskRep = [resultImage bitmapImageRepresentation];
 }
 
-//- (NSImage *)compositeMaskOver:(NSImage *)image
-//{
-//    NSImage *result = nil;
-//
-//    @autoreleasepool {
-//        CIImage *maskCI = [[CIImage alloc] initWithBitmapImageRep:_maskRep];
-//        CIImage *rawCI = [[CIImage alloc] initWithBitmapImageRep:_rawRep];
-//        CIImage *alphaCI = nil;
-//
-//        CIFilter *maskToAlpha = [CIFilter filterWithName:@"CIMaskToAlpha"];
-//        [maskToAlpha setDefaults];
-//        [maskToAlpha setValue:maskCI forKey:@"inputImage"];
-//        alphaCI = [maskToAlpha valueForKey:@"outputImage"];
-//
-//        CIFilter *blendFilter = [CIFilter filterWithName:@"CIBlendWithAlphaMask"];
-//        [blendFilter setDefaults];
-//        [blendFilter setValue:maskCI forKey:@"inputImage"];
-//        [blendFilter setValue:rawCI forKey:@"inputBackgroundImage"];
-//        [blendFilter setValue:alphaCI forKey:@"inputMaskImage"];
-//        rawCI = [blendFilter valueForKey:@"outputImage"];
-//
-//        NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:rawCI];
-//        result = [[NSImage alloc] initWithSize:rep.size];
-//        [result addRepresentation:rep];
-//
-//        maskCI = nil;
-//        rawCI = nil;
-//        alphaCI = nil;
-//    }
-//
-//    return result;
-////    return [[NSImage alloc] initWithCGImage:[_maskRep CGImage] size:_maskRep.size];
-//}
+- (NSImage *)outMask:(ImageOperationBlock)imageOperationBlock
+{
+    NSImage *result = nil;
+
+    if (imageOperationBlock) {
+        result = imageOperationBlock([[NSImage alloc] initWithCGImage:[_maskRep CGImage] size:_maskRep.size]);
+    } else { // Defaults to CIMaskToAlpha
+        @autoreleasepool {
+            CIImage *maskCI = [[CIImage alloc] initWithBitmapImageRep:_maskRep];
+            CIImage *alphaCI = nil;
+
+            CIFilter *maskToAlpha = [CIFilter filterWithName:@"CIMaskToAlpha"];
+            [maskToAlpha setDefaults];
+            [maskToAlpha setValue:maskCI forKey:@"inputImage"];
+            alphaCI = [maskToAlpha valueForKey:@"outputImage"];
+
+            NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:alphaCI];
+            result = [[NSImage alloc] initWithSize:rep.size];
+            [result addRepresentation:rep];
+            
+            maskCI = nil;
+            alphaCI = nil;
+        }
+    }
+
+    return result;
+}
 
 - (void)scribbleFrom:(CGPoint)start to:(CGPoint)end radius:(float)radius type:(BrushType)type
 {
@@ -329,10 +342,26 @@ static void *VMBrushImageViewContext = nil;
         NSBezierPath* circlePath = [NSBezierPath bezierPath];
         [circlePath appendBezierPathWithOvalInRect: rect];
 
+        // http://www.cocoabuilder.com/archive/cocoa/144472-nscolor-clearcolor-and-nsbezierpath-not-compatible.html
+        // According to Stefan in the thread,
+        // `NSBezierPath uses the NSCompositeSourceOver operation, therefore clearColor does not do anything.`
+        // But my eraser color is [NSColor clearColor], so I have to change compositingOperation for Eraser type
+        NSGraphicsContext *context = nil;
+        if (type == Eraser) {
+            context = [NSGraphicsContext currentContext];
+            [context saveGraphicsState];
+            [context setCompositingOperation:NSCompositeClear];
+        }
+
+
         // Outline and fill the path
         [circlePath fill];
         [linePath stroke];
-        
+
+        if (type == Eraser) {
+            [context restoreGraphicsState];
+        }
+
         [bitmapGraphicsContext flushGraphics];
         [NSGraphicsContext restoreGraphicsState];
         

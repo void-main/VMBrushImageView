@@ -169,6 +169,11 @@
                                     <action selector="changeBrushType:" target="Voe-Tx-rLC" id="QHP-BY-Wdm"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Reset" keyEquivalent="R" id="9R1-Fn-PkG">
+                                <connections>
+                                    <action selector="resetMask:" target="Voe-Tx-rLC" id="z9G-un-bzd"/>
+                                </connections>
+                            </menuItem>
                             <menuItem isSeparatorItem="YES" id="iDS-mR-6ds"/>
                             <menuItem title="Cut" keyEquivalent="x" id="uRl-iY-unG">
                                 <connections>

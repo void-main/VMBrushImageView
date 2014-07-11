@@ -38,4 +38,8 @@
     [self.brushImageView setBrushType:[sender tag]];
 }
 
+- (IBAction)resetMask:(id)sender {
+    [self.brushImageView resetMask];
+}
+
 @end
