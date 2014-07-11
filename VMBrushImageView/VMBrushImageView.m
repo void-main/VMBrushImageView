@@ -98,9 +98,16 @@ static void *VMBrushImageViewContext = nil;
 {
     _rawImage = [image copy];
     _maskImage = [self genMaskImageFor:_rawImage];
-    [super setImage:[self compositeMask:_maskImage over:_rawImage]];
-    self.frame = CGRectMake(0, 0, _rawImage.size.width, _rawImage.size.height);
-    self.bounds = CGRectMake(0, 0, _rawImage.size.width, _rawImage.size.height);
+    NSImage *compositeImage = [self compositeMask:_maskImage over:_rawImage];
+    NSLog(@"Composite Image: %f %f", compositeImage.size.width, compositeImage.size.height);
+    [super setImage:compositeImage];
+
+    NSLog(@"Frame: %f %f | Bounds: %f %f", self.frame.size.width, self.frame.size.height, self.bounds.size.width, self.bounds.size.height);
+
+    self.frame = CGRectMake(0, 0, compositeImage.size.width, compositeImage.size.height);
+    self.bounds = CGRectMake(0, 0, compositeImage.size.width, compositeImage.size.height);
+
+    NSLog(@"Frame: %f %f | Bounds: %f %f", self.frame.size.width, self.frame.size.height, self.bounds.size.width, self.bounds.size.height);
 
     [self needsDisplay];
 }
