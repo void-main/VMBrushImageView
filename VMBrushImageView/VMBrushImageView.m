@@ -46,6 +46,8 @@ static void *VMBrushImageViewContext = nil;
 
         _scribbleView = [[NSImageView alloc] initWithFrame:self.bounds];
         [_scribbleView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [_scribbleView setWantsLayer:YES];
+        [_scribbleView setAlphaValue:0.5];
         [self addSubview:_scribbleView];
         [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scribbleView]|"
                                                                      options:NSLayoutFormatDirectionLeadingToTrailing

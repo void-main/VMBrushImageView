@@ -58,7 +58,6 @@ static void *VMPreviewWindowControllerContext = nil;
 - (void)setImageForType
 {
     if (self.previewType == PureBlue) {
-        NSLog(@"Image Size: %f %f", _image.size.width, _image.size.height);
         self.backgroundImage = [[NSImage alloc] initWithSize:_image.size];
         [self.backgroundImage lockFocus];
         [[NSColor blueColor] set];
