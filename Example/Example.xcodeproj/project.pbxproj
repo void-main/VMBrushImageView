@@ -21,8 +21,6 @@
 		DFD47DF9196E23B200B84D86 /* VMBrushImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD47DF8196E23B200B84D86 /* VMBrushImageView.m */; };
 		DFD47DFC196E283500B84D86 /* NSImage+BitmapRep.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD47DFB196E283500B84D86 /* NSImage+BitmapRep.m */; };
 		DFD47E03196E9CE700B84D86 /* VMCenteringClipView.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD47E02196E9CE700B84D86 /* VMCenteringClipView.m */; };
-		DFD47E05196F6B4700B84D86 /* VMBrushMaskPreprocessKernel.cikernel in Resources */ = {isa = PBXBuildFile; fileRef = DFD47E04196F6B4700B84D86 /* VMBrushMaskPreprocessKernel.cikernel */; };
-		DFD47E08196F6BC000B84D86 /* VMBrushMaskPreprocessFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD47E07196F6BC000B84D86 /* VMBrushMaskPreprocessFilter.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,9 +59,6 @@
 		DFD47DFB196E283500B84D86 /* NSImage+BitmapRep.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSImage+BitmapRep.m"; sourceTree = "<group>"; };
 		DFD47E01196E9CE700B84D86 /* VMCenteringClipView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMCenteringClipView.h; sourceTree = "<group>"; };
 		DFD47E02196E9CE700B84D86 /* VMCenteringClipView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMCenteringClipView.m; sourceTree = "<group>"; };
-		DFD47E04196F6B4700B84D86 /* VMBrushMaskPreprocessKernel.cikernel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = VMBrushMaskPreprocessKernel.cikernel; sourceTree = "<group>"; };
-		DFD47E06196F6BC000B84D86 /* VMBrushMaskPreprocessFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMBrushMaskPreprocessFilter.h; sourceTree = "<group>"; };
-		DFD47E07196F6BC000B84D86 /* VMBrushMaskPreprocessFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMBrushMaskPreprocessFilter.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,9 +172,6 @@
 				DFD47DFB196E283500B84D86 /* NSImage+BitmapRep.m */,
 				DFD47DF7196E23B200B84D86 /* VMBrushImageView.h */,
 				DFD47DF8196E23B200B84D86 /* VMBrushImageView.m */,
-				DFD47E04196F6B4700B84D86 /* VMBrushMaskPreprocessKernel.cikernel */,
-				DFD47E06196F6BC000B84D86 /* VMBrushMaskPreprocessFilter.h */,
-				DFD47E07196F6BC000B84D86 /* VMBrushMaskPreprocessFilter.m */,
 			);
 			name = VMBrushImageView;
 			path = ../../VMBrushImageView;
@@ -275,7 +267,6 @@
 				DFD47DD8196E233800B84D86 /* Images.xcassets in Resources */,
 				DFD47DD0196E233800B84D86 /* Credits.rtf in Resources */,
 				DFD47DD6196E233800B84D86 /* MainMenu.xib in Resources */,
-				DFD47E05196F6B4700B84D86 /* VMBrushMaskPreprocessKernel.cikernel in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -295,7 +286,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DFD47E03196E9CE700B84D86 /* VMCenteringClipView.m in Sources */,
-				DFD47E08196F6BC000B84D86 /* VMBrushMaskPreprocessFilter.m in Sources */,
 				DFD47DCC196E233800B84D86 /* main.m in Sources */,
 				DFD47DFC196E283500B84D86 /* NSImage+BitmapRep.m in Sources */,
 				DFD47DD3196E233800B84D86 /* VMAppDelegate.m in Sources */,
@@ -512,6 +502,7 @@
 				DFD47DEF196E233800B84D86 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DFD47DF0196E233800B84D86 /* Build configuration list for PBXNativeTarget "ExampleTests" */ = {
 			isa = XCConfigurationList;
@@ -520,6 +511,7 @@
 				DFD47DF2196E233800B84D86 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

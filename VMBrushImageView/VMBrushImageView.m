@@ -8,7 +8,6 @@
 
 #import "VMBrushImageView.h"
 #import "NSImage+BitmapRep.h"
-#import "VMBrushMaskPreprocessFilter.h"
 
 @interface VMBrushImageView (Mask)
 
@@ -44,9 +43,6 @@ static void *VMBrushImageViewContext = nil;
 
         [self addObserver:self forKeyPath:@"brushType" options:NSKeyValueObservingOptionNew context:&VMBrushImageViewContext];
         [self addObserver:self forKeyPath:@"brushRadius" options:NSKeyValueObservingOptionNew context:&VMBrushImageViewContext];
-
-        // Invoke +initialize
-        [VMBrushPreprocessFilter class];
     }
     return self;
 }
@@ -73,7 +69,7 @@ static void *VMBrushImageViewContext = nil;
     _maskImage = [self scribbleOn:_maskImage from:point to:point radius:self.brushRadius type:self.brushType];
     _lastPoint = point;
 
-    [super setImage:[self compositeMask:_maskImage over:_rawImage]];
+    [self setImage:[self compositeMask:_maskImage over:_rawImage]];
     [self needsDisplay];
 }
 
@@ -84,7 +80,7 @@ static void *VMBrushImageViewContext = nil;
     _maskImage = [self scribbleOn:_maskImage from:_lastPoint to:point radius:self.brushRadius type:self.brushType];
     _lastPoint = point;
 
-    [super setImage:[self compositeMask:_maskImage over:_rawImage]];
+    [self setImage:[self compositeMask:_maskImage over:_rawImage]];
     [self needsDisplay];
 }
 
@@ -94,21 +90,12 @@ static void *VMBrushImageViewContext = nil;
     [brushCursor set];
 }
 
-- (void)setImage:(NSImage *)image
+- (void)setRawImage:(NSImage *)image
 {
     _rawImage = [image copy];
     _maskImage = [self genMaskImageFor:_rawImage];
     NSImage *compositeImage = [self compositeMask:_maskImage over:_rawImage];
-    NSLog(@"Composite Image: %f %f", compositeImage.size.width, compositeImage.size.height);
-    [super setImage:compositeImage];
-
-    NSLog(@"Frame: %f %f | Bounds: %f %f", self.frame.size.width, self.frame.size.height, self.bounds.size.width, self.bounds.size.height);
-
-    self.frame = CGRectMake(0, 0, compositeImage.size.width, compositeImage.size.height);
-    self.bounds = CGRectMake(0, 0, compositeImage.size.width, compositeImage.size.height);
-
-    NSLog(@"Frame: %f %f | Bounds: %f %f", self.frame.size.width, self.frame.size.height, self.bounds.size.width, self.bounds.size.height);
-
+    [self setImage:compositeImage];
     [self needsDisplay];
 }
 
@@ -215,19 +202,6 @@ static void *VMBrushImageViewContext = nil;
     NSImage *result = [[NSImage alloc] initWithSize:image.size];
     [result lockFocus];
     [image drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-
-    @autoreleasepool {
-        CIImage *maskRaw = [[CIImage alloc] initWithBitmapImageRep:[mask bitmapImageRepresentation]];
-        CIFilter *filter = [CIFilter filterWithName:@"VMBrushMaskPreprocessFilter"];
-        [filter setDefaults];
-        [filter setValue:maskRaw forKey:@"inputImage"];
-        CIImage *result = [filter valueForKey:@"outputImage"];
-
-        NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:result];
-        mask = [[NSImage alloc] initWithSize:rep.size];
-        [mask addRepresentation:rep];
-    }
-
     [mask drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:0.5];
     [result unlockFocus];
 

@@ -10,7 +10,7 @@
 
 #define kForegroundColor  [NSColor greenColor]
 #define kBackgroundColor  [NSColor redColor]
-#define kEraserColor      [NSColor whiteColor]
+#define kEraserColor      [NSColor clearColor]
 
 typedef enum : NSUInteger {
     Foreground = 0,
@@ -38,7 +38,7 @@ typedef enum : NSUInteger {
 @property BrushType brushType;
 @property PreviewType previewType;
 
-- (void)setImage:(NSImage *)image;
+- (void)setRawImage:(NSImage *)image;
 
 - (void)increaseBrushRadius:(float)increment;
 - (void)decreaseBrushRadius:(float)decrement;

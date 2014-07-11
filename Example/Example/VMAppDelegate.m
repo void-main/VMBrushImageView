@@ -19,7 +19,7 @@
     [openPanel setCanChooseDirectories:NO];
     if ([openPanel runModal] == NSOKButton) {
         NSURL *imageURL = [openPanel URL];
-        [self.brushImageView setImage:[[NSImage alloc] initWithContentsOfURL:imageURL]];
+        [self.brushImageView setRawImage:[[NSImage alloc] initWithContentsOfURL:imageURL]];
         [self.window makeKeyAndOrderFront:nil];
     } else {
         [NSApp terminate:nil];
