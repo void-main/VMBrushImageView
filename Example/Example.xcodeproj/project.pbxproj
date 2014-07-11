@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DF741A6B196FD1D5004155D1 /* VMPreviewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = DF741A69196FD1D5004155D1 /* VMPreviewWindowController.m */; };
+		DF741A6C196FD1D5004155D1 /* VMPreviewWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF741A6A196FD1D5004155D1 /* VMPreviewWindowController.xib */; };
 		DFD47DC0196E233800B84D86 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DFD47DBF196E233800B84D86 /* Cocoa.framework */; };
 		DFD47DCA196E233800B84D86 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = DFD47DC8196E233800B84D86 /* InfoPlist.strings */; };
 		DFD47DCC196E233800B84D86 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = DFD47DCB196E233800B84D86 /* main.m */; };
@@ -34,6 +36,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DF741A68196FD1D5004155D1 /* VMPreviewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMPreviewWindowController.h; sourceTree = "<group>"; };
+		DF741A69196FD1D5004155D1 /* VMPreviewWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMPreviewWindowController.m; sourceTree = "<group>"; };
+		DF741A6A196FD1D5004155D1 /* VMPreviewWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VMPreviewWindowController.xib; sourceTree = "<group>"; };
 		DFD47DBC196E233800B84D86 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DFD47DBF196E233800B84D86 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		DFD47DC2196E233800B84D86 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -126,6 +131,9 @@
 			children = (
 				DFD47E00196E9CAC00B84D86 /* Scroll Image */,
 				DFD47DF6196E23B200B84D86 /* VMBrushImageView */,
+				DF741A68196FD1D5004155D1 /* VMPreviewWindowController.h */,
+				DF741A69196FD1D5004155D1 /* VMPreviewWindowController.m */,
+				DF741A6A196FD1D5004155D1 /* VMPreviewWindowController.xib */,
 				DFD47DD1196E233800B84D86 /* VMAppDelegate.h */,
 				DFD47DD2196E233800B84D86 /* VMAppDelegate.m */,
 				DFD47DD4196E233800B84D86 /* MainMenu.xib */,
@@ -266,6 +274,7 @@
 				DFD47DCA196E233800B84D86 /* InfoPlist.strings in Resources */,
 				DFD47DD8196E233800B84D86 /* Images.xcassets in Resources */,
 				DFD47DD0196E233800B84D86 /* Credits.rtf in Resources */,
+				DF741A6C196FD1D5004155D1 /* VMPreviewWindowController.xib in Resources */,
 				DFD47DD6196E233800B84D86 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -290,6 +299,7 @@
 				DFD47DFC196E283500B84D86 /* NSImage+BitmapRep.m in Sources */,
 				DFD47DD3196E233800B84D86 /* VMAppDelegate.m in Sources */,
 				DFD47DF9196E23B200B84D86 /* VMBrushImageView.m in Sources */,
+				DF741A6B196FD1D5004155D1 /* VMPreviewWindowController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

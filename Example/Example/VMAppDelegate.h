@@ -9,9 +9,11 @@
 #import <Cocoa/Cocoa.h>
 
 @class VMBrushImageView;
+@class VMPreviewWindowController;
 @interface VMAppDelegate : NSObject <NSApplicationDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 @property (weak) IBOutlet VMBrushImageView *brushImageView;
+@property (nonatomic, strong) VMPreviewWindowController *previewWindowController;
 
 @end

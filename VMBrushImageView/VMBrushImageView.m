@@ -41,6 +41,9 @@ static void *VMBrushImageViewContext = nil;
         self.maxBrushRadius = 40;
         self.minBrushRadius = 2;
 
+        _triggerDuringMove = NO;
+        _maskOperationBlock = nil;
+
         _scribbleView = [[NSImageView alloc] initWithFrame:self.bounds];
         [_scribbleView setTranslatesAutoresizingMaskIntoConstraints:NO];
         [self addSubview:_scribbleView];
@@ -140,6 +143,8 @@ static void *VMBrushImageViewContext = nil;
     [brushCursor set];
 }
 
+#pragma mark -
+#pragma mark Basic Operations
 - (void)setRawImage:(NSImage *)image
 {
     _rawImage = [image copy];
@@ -149,6 +154,14 @@ static void *VMBrushImageViewContext = nil;
     [self needsDisplay];
 }
 
+- (void)setMaskOperation:(ImageOperationBlock)maskOperations triggerDuringMove:(BOOL)triggerDuringMove
+{
+    _maskOperationBlock = maskOperations;
+    _triggerDuringMove = triggerDuringMove;
+}
+
+#pragma mark -
+#pragma mark UI interactions
 - (void)increaseBrushRadius:(float)increment
 {
     self.brushRadius += increment;
@@ -178,6 +191,31 @@ static void *VMBrushImageViewContext = nil;
     }
 
     _scribbleView.image = [[NSImage alloc] initWithCGImage:[_maskRep CGImage] size:_maskRep.size];
+}
+
+#pragma mark -
+#pragma mark Output
+- (NSImage *)outMask
+{
+    NSImage *result = nil;
+    @autoreleasepool {
+        CIImage *maskCI = [[CIImage alloc] initWithBitmapImageRep:_maskRep];
+        CIImage *alphaCI = nil;
+
+        CIFilter *maskToAlpha = [CIFilter filterWithName:@"CIMaskToAlpha"];
+        [maskToAlpha setDefaults];
+        [maskToAlpha setValue:maskCI forKey:@"inputImage"];
+        alphaCI = [maskToAlpha valueForKey:@"outputImage"];
+
+        NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:alphaCI];
+        result = [[NSImage alloc] initWithSize:rep.size];
+        [result addRepresentation:rep];
+
+        maskCI = nil;
+        alphaCI = nil;
+    }
+    
+    return result;
 }
 
 #pragma mark -
@@ -266,34 +304,6 @@ static void *VMBrushImageViewContext = nil;
     [resultImage unlockFocus];
 
     _maskRep = [resultImage bitmapImageRepresentation];
-}
-
-- (NSImage *)outMask:(ImageOperationBlock)imageOperationBlock
-{
-    NSImage *result = nil;
-
-    if (imageOperationBlock) {
-        result = imageOperationBlock([[NSImage alloc] initWithCGImage:[_maskRep CGImage] size:_maskRep.size]);
-    } else { // Defaults to CIMaskToAlpha
-        @autoreleasepool {
-            CIImage *maskCI = [[CIImage alloc] initWithBitmapImageRep:_maskRep];
-            CIImage *alphaCI = nil;
-
-            CIFilter *maskToAlpha = [CIFilter filterWithName:@"CIMaskToAlpha"];
-            [maskToAlpha setDefaults];
-            [maskToAlpha setValue:maskCI forKey:@"inputImage"];
-            alphaCI = [maskToAlpha valueForKey:@"outputImage"];
-
-            NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:alphaCI];
-            result = [[NSImage alloc] initWithSize:rep.size];
-            [result addRepresentation:rep];
-            
-            maskCI = nil;
-            alphaCI = nil;
-        }
-    }
-
-    return result;
 }
 
 - (void)scribbleFrom:(CGPoint)start to:(CGPoint)end radius:(float)radius type:(BrushType)type

@@ -8,6 +8,7 @@
 
 #import "VMAppDelegate.h"
 #import "VMBrushImageView.h"
+#import "VMPreviewWindowController.h"
 
 @implementation VMAppDelegate
 
@@ -40,6 +41,13 @@
 
 - (IBAction)resetMask:(id)sender {
     [self.brushImageView resetMask];
+}
+
+- (IBAction)viewResult:(id)sender {
+    self.previewWindowController = nil;
+    self.previewWindowController = [[VMPreviewWindowController alloc] initWithImage:self.brushImageView.image mask:self.brushImageView.outMask];
+    [self.previewWindowController showWindow:nil];
+    [self.previewWindowController.window makeKeyAndOrderFront:nil];
 }
 
 @end

@@ -19,7 +19,7 @@ typedef enum : NSUInteger {
     Eraser     = 2,
 } BrushType;
 
-typedef NSImage *(^ImageOperationBlock)(NSImage *inputImage);
+typedef NSImage *(^ImageOperationBlock)(NSImage *inputImage, NSImage *maskImage);
 
 @interface VMBrushImageView : NSImageView {
     NSImageView *_scribbleView;
@@ -31,6 +31,9 @@ typedef NSImage *(^ImageOperationBlock)(NSImage *inputImage);
 
     BOOL _scribbling;
     NSMutableArray *_pointsToDraw;
+
+    ImageOperationBlock _maskOperationBlock;
+    BOOL _triggerDuringMove;
 }
 
 @property float brushRadius;
@@ -38,13 +41,19 @@ typedef NSImage *(^ImageOperationBlock)(NSImage *inputImage);
 @property float minBrushRadius;
 @property BrushType brushType;
 
+#pragma mark -
+#pragma mark Basic Operations
 - (void)setRawImage:(NSImage *)image;
+- (void)setMaskOperation:(ImageOperationBlock)maskOperations triggerDuringMove:(BOOL)triggerDuringMove;
 
+#pragma mark - 
+#pragma mark UI interactions
 - (void)increaseBrushRadius:(float)increment;
 - (void)decreaseBrushRadius:(float)decrement;
-
 - (void)resetMask;
 
-- (NSImage *)outMask:(ImageOperationBlock)imageOperationBlock;
+#pragma mark -
+#pragma mark Output
+- (NSImage *)outMask;
 
 @end

@@ -477,6 +477,21 @@
                     <constraint firstItem="pPa-rM-2rV" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" id="mhC-zb-YJP"/>
                 </constraints>
             </view>
+            <toolbar key="toolbar" implicitIdentifier="ABBF7CB6-21A7-4D3A-BAAE-C105C02A2EAE" autosavesConfiguration="NO" displayMode="iconAndLabel" sizeMode="regular" id="BYZ-ur-q5z">
+                <allowedToolbarItems>
+                    <toolbarItem implicitItemIdentifier="09671572-4AB3-408E-BAD8-8176D84CB18F" label="Preview" paletteLabel="Preview" tag="-1" image="NSAdvanced" id="Tdn-l4-oue">
+                        <connections>
+                            <action selector="viewResult:" target="Voe-Tx-rLC" id="5hj-3p-s6B"/>
+                        </connections>
+                    </toolbarItem>
+                </allowedToolbarItems>
+                <defaultToolbarItems>
+                    <toolbarItem reference="Tdn-l4-oue"/>
+                </defaultToolbarItems>
+            </toolbar>
         </window>
     </objects>
+    <resources>
+        <image name="NSAdvanced" width="32" height="32"/>
+    </resources>
 </document>
