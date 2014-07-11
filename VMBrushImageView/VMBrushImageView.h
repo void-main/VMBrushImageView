@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <QuartzCore/QuartzCore.h>
 
 #define kForegroundColor  [NSColor greenColor]
 #define kBackgroundColor  [NSColor redColor]
@@ -26,12 +27,16 @@ typedef enum : NSUInteger {
 } PreviewType;
 
 @interface VMBrushImageView : NSImageView {
+    NSImageView *_scribbleView;
+
     NSImage *_rawImage;
-    NSImage *_maskImage;
+    NSBitmapImageRep *_rawRep;
+    NSBitmapImageRep *_maskRep;
 
     NSCursor *_brushCursor;
 
-    CGPoint _lastPoint;
+    BOOL _scribbling;
+    NSMutableArray *_pointsToDraw;
 }
 
 @property float brushRadius;

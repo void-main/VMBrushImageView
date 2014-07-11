@@ -11,9 +11,9 @@
 
 @interface VMBrushImageView (Mask)
 
-- (NSImage *)genMaskImageFor:(NSImage *)image;
-- (NSImage *)compositeMask:(NSImage *)mask over:(NSImage *)image;
-- (NSImage *)scribbleOn:(NSImage *)image from:(CGPoint)start to:(CGPoint)end radius:(float)radius type:(BrushType)type;
+- (void)createMaskImageFor:(NSImage *)image;
+//- (NSImage *)compositeMaskOver:(NSImage *)image;
+- (void)scribbleFrom:(CGPoint)start to:(CGPoint)end radius:(float)radius type:(BrushType)type;
 
 @end
 
@@ -41,6 +41,20 @@ static void *VMBrushImageViewContext = nil;
         self.brushType = Foreground;
         self.brushRadius = 10;
 
+        _scribbleView = [[NSImageView alloc] initWithFrame:self.bounds];
+        [_scribbleView setTranslatesAutoresizingMaskIntoConstraints:NO];
+        [self addSubview:_scribbleView];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[_scribbleView]|"
+                                                                     options:NSLayoutFormatDirectionLeadingToTrailing
+                                                                     metrics:nil
+                                                                       views:NSDictionaryOfVariableBindings(_scribbleView)]];
+        [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[_scribbleView]|"
+                                                                     options:NSLayoutFormatDirectionLeadingToTrailing
+                                                                     metrics:nil
+                                                                       views:NSDictionaryOfVariableBindings(_scribbleView)]];
+
+        _pointsToDraw = [[NSMutableArray alloc] init];
+
         [self addObserver:self forKeyPath:@"brushType" options:NSKeyValueObservingOptionNew context:&VMBrushImageViewContext];
         [self addObserver:self forKeyPath:@"brushRadius" options:NSKeyValueObservingOptionNew context:&VMBrushImageViewContext];
     }
@@ -49,6 +63,7 @@ static void *VMBrushImageViewContext = nil;
 
 - (void)dealloc
 {
+
     [self removeObserver:self forKeyPath:@"brushType"];
     [self removeObserver:self forKeyPath:@"brushRadius"];
 }
@@ -66,10 +81,18 @@ static void *VMBrushImageViewContext = nil;
 {
     CGPoint point = [theEvent locationInWindow];
     point = [self convertPoint:point fromView:nil];
-    _maskImage = [self scribbleOn:_maskImage from:point to:point radius:self.brushRadius type:self.brushType];
-    _lastPoint = point;
 
-    [self setImage:[self compositeMask:_maskImage over:_rawImage]];
+    _scribbling = YES;
+
+    NSThread *drawScribbleThread = [[NSThread alloc] initWithTarget:self selector:@selector(drawScirbble) object:nil];
+    [drawScribbleThread start];
+
+    [_pointsToDraw removeAllObjects];
+
+    // Add a start point and a same end point
+    [_pointsToDraw addObject:[NSValue valueWithPoint:point]];
+    [_pointsToDraw addObject:[NSValue valueWithPoint:point]];
+
     [self needsDisplay];
 }
 
@@ -77,11 +100,39 @@ static void *VMBrushImageViewContext = nil;
 {
     CGPoint point = [theEvent locationInWindow];
     point = [self convertPoint:point fromView:nil];
-    _maskImage = [self scribbleOn:_maskImage from:_lastPoint to:point radius:self.brushRadius type:self.brushType];
-    _lastPoint = point;
 
-    [self setImage:[self compositeMask:_maskImage over:_rawImage]];
+    [_pointsToDraw addObject:[NSValue valueWithPoint:point]];
     [self needsDisplay];
+}
+
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    _scribbling = NO;
+}
+
+- (void)drawScirbble
+{
+    CGPoint lastPoint = CGPointMake(-1, -1);
+    while (_scribbling || _pointsToDraw.count > 0) {
+        if (_pointsToDraw.count > 0) {
+            CGPoint newPoint = [[_pointsToDraw objectAtIndex:0] pointValue];
+            [_pointsToDraw removeObjectAtIndex:0];
+            if (lastPoint.x < 0 && lastPoint.x < 0) {
+                lastPoint = newPoint;
+                continue;
+            }
+
+            [self scribbleFrom:lastPoint to:newPoint radius:self.brushRadius type:self.brushType];
+
+            lastPoint = newPoint;
+            dispatch_async(dispatch_get_main_queue(), ^{
+//                self.image = [self compositeMaskOver:_rawImage];
+                _scribbleView.image = [[NSImage alloc] initWithCGImage:[_maskRep CGImage] size:_maskRep.size];
+            });
+        } else {
+            [NSThread sleepForTimeInterval:0.03];
+        }
+    }
 }
 
 - (void)cursorUpdate:(NSEvent *)event
@@ -93,9 +144,9 @@ static void *VMBrushImageViewContext = nil;
 - (void)setRawImage:(NSImage *)image
 {
     _rawImage = [image copy];
-    _maskImage = [self genMaskImageFor:_rawImage];
-    NSImage *compositeImage = [self compositeMask:_maskImage over:_rawImage];
-    [self setImage:compositeImage];
+    [self createMaskImageFor:_rawImage];
+    self.image = _rawImage;
+    _scribbleView.image = nil;
     [self needsDisplay];
 }
 
@@ -180,11 +231,12 @@ static void *VMBrushImageViewContext = nil;
 
 #pragma mark -
 #pragma mark Mask-related Methods
-- (NSImage *)genMaskImageFor:(NSImage *)image
+- (void)createMaskImageFor:(NSImage *)image
 {
     CGSize size;
     @autoreleasepool {
         NSBitmapImageRep *rep = [image bitmapImageRepresentation];
+        _rawRep = [rep copy];
         size = rep.size;
     }
 
@@ -194,21 +246,44 @@ static void *VMBrushImageViewContext = nil;
     NSRectFill(CGRectMake(0, 0, size.width, size.height));
     [resultImage unlockFocus];
 
-    return resultImage;
+    _maskRep = [resultImage bitmapImageRepresentation];
 }
 
-- (NSImage *)compositeMask:(NSImage *)mask over:(NSImage *)image
-{
-    NSImage *result = [[NSImage alloc] initWithSize:image.size];
-    [result lockFocus];
-    [image drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-    [mask drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:0.5];
-    [result unlockFocus];
+//- (NSImage *)compositeMaskOver:(NSImage *)image
+//{
+//    NSImage *result = nil;
+//
+//    @autoreleasepool {
+//        CIImage *maskCI = [[CIImage alloc] initWithBitmapImageRep:_maskRep];
+//        CIImage *rawCI = [[CIImage alloc] initWithBitmapImageRep:_rawRep];
+//        CIImage *alphaCI = nil;
+//
+//        CIFilter *maskToAlpha = [CIFilter filterWithName:@"CIMaskToAlpha"];
+//        [maskToAlpha setDefaults];
+//        [maskToAlpha setValue:maskCI forKey:@"inputImage"];
+//        alphaCI = [maskToAlpha valueForKey:@"outputImage"];
+//
+//        CIFilter *blendFilter = [CIFilter filterWithName:@"CIBlendWithAlphaMask"];
+//        [blendFilter setDefaults];
+//        [blendFilter setValue:maskCI forKey:@"inputImage"];
+//        [blendFilter setValue:rawCI forKey:@"inputBackgroundImage"];
+//        [blendFilter setValue:alphaCI forKey:@"inputMaskImage"];
+//        rawCI = [blendFilter valueForKey:@"outputImage"];
+//
+//        NSCIImageRep *rep = [NSCIImageRep imageRepWithCIImage:rawCI];
+//        result = [[NSImage alloc] initWithSize:rep.size];
+//        [result addRepresentation:rep];
+//
+//        maskCI = nil;
+//        rawCI = nil;
+//        alphaCI = nil;
+//    }
+//
+//    return result;
+////    return [[NSImage alloc] initWithCGImage:[_maskRep CGImage] size:_maskRep.size];
+//}
 
-    return result;
-}
-
-- (NSImage *)scribbleOn:(NSImage *)image from:(CGPoint)start to:(CGPoint)end radius:(float)radius type:(BrushType)type
+- (void)scribbleFrom:(CGPoint)start to:(CGPoint)end radius:(float)radius type:(BrushType)type
 {
     CGFloat magnification = 1.0f;
 
@@ -223,50 +298,46 @@ static void *VMBrushImageViewContext = nil;
     end.x = roundf(end.x);
     end.y = roundf(end.y);
 
-    [image lockFocus];
+    @autoreleasepool {
+        // Get the graphics context that we are currently executing under
+        NSGraphicsContext* bitmapGraphicsContext = [NSGraphicsContext graphicsContextWithBitmapImageRep:_maskRep];
+        [NSGraphicsContext saveGraphicsState];
+        [NSGraphicsContext setCurrentContext:bitmapGraphicsContext];
 
-    // Get the graphics context that we are currently executing under
-    NSGraphicsContext* gc = [NSGraphicsContext currentContext];
+        // Set the color in the current graphics context for future draw operations
+        switch (type) {
+            case Foreground:
+                [kForegroundColor set];
+                break;
+            case Background:
+                [kBackgroundColor set];
+                break;
+            default:
+                [kEraserColor set];
+                break;
+        }
 
-    // Save the current graphics context settings
-    [gc saveGraphicsState];
+        NSBezierPath* linePath = [NSBezierPath bezierPath];
+        [linePath setLineWidth:2 * radius + 1];
 
-    // Set the color in the current graphics context for future draw operations
-    switch (type) {
-        case Foreground:
-            [kForegroundColor set];
-            break;
-        case Background:
-            [kBackgroundColor set];
-            break;
-        default:
-            [kEraserColor set];
-            break;
+        [linePath moveToPoint:start];
+        [linePath curveToPoint:end controlPoint1:start controlPoint2:end];
+        [linePath closePath];
+
+        // Create our circle path
+        NSRect rect = NSMakeRect(end.x - radius, end.y - radius, 2 * radius + 1, 2 * radius + 1);
+        NSBezierPath* circlePath = [NSBezierPath bezierPath];
+        [circlePath appendBezierPathWithOvalInRect: rect];
+
+        // Outline and fill the path
+        [circlePath fill];
+        [linePath stroke];
+        
+        [bitmapGraphicsContext flushGraphics];
+        [NSGraphicsContext restoreGraphicsState];
+        
+        bitmapGraphicsContext = nil;
     }
-
-    NSBezierPath* linePath = [NSBezierPath bezierPath];
-    [linePath setLineWidth:2 * radius + 1];
-
-    [linePath moveToPoint:start];
-    [linePath curveToPoint:end controlPoint1:start controlPoint2:end];
-    [linePath closePath];
-
-    // Create our circle path
-    NSRect rect = NSMakeRect(end.x - radius, end.y - radius, 2 * radius + 1, 2 * radius + 1);
-    NSBezierPath* circlePath = [NSBezierPath bezierPath];
-    [circlePath appendBezierPathWithOvalInRect: rect];
-
-    // Outline and fill the path
-    [circlePath fill];
-
-
-    [linePath stroke];
-
-    // Restore the context to what it was before we messed with it
-    [gc restoreGraphicsState];
-    [image unlockFocus];
-
-    return image;
 }
 
 #pragma mark -
