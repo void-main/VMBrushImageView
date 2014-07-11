@@ -55,7 +55,7 @@ The Example project in `Example` folder is intended to show you how to use `VMBr
 To see how you can create and setup the view, please check `MainMenu.xib` and `VMAppDelegate.m`. To see how you can leverage `outMask`, please check out `VMPreviewWindowController.m`.
 
 ## Licence
-Please read [LICENCE](./LICENCE).
+Please read [LICENSE](./LICENSE).
 
 ## Known issue
 - Unable to customize cursor image
