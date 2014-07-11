@@ -24,7 +24,6 @@ typedef NSImage *(^ImageOperationBlock)(NSImage *inputImage, NSImage *maskImage)
 @interface VMBrushImageView : NSImageView {
     NSImageView *_scribbleView;
 
-    NSImage *_rawImage;
     NSBitmapImageRep *_maskRep;
 
     NSCursor *_brushCursor;

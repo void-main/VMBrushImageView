@@ -130,12 +130,27 @@ static void *VMBrushImageViewContext = nil;
             [self scribbleFrom:lastPoint to:newPoint radius:self.brushRadius type:self.brushType];
 
             lastPoint = newPoint;
+            NSImage *maskImage = nil;
+            if (_triggerDuringMove && _maskOperationBlock) {
+                NSImage *newMask = _maskOperationBlock(self.image, maskImage);
+                _maskRep = [newMask bitmapImageRepresentation];
+                _scribbleView.image = newMask;
+            } else {
+                maskImage = [[NSImage alloc] initWithCGImage:[_maskRep CGImage] size:_maskRep.size];
+            }
+
             dispatch_async(dispatch_get_main_queue(), ^{
-                _scribbleView.image = [[NSImage alloc] initWithCGImage:[_maskRep CGImage] size:_maskRep.size];
+                _scribbleView.image = maskImage;
             });
         } else {
             [NSThread sleepForTimeInterval:0.03];
         }
+    }
+
+    if (_maskOperationBlock) {
+        NSImage *newMask = _maskOperationBlock(self.image, [[NSImage alloc] initWithCGImage:[_maskRep CGImage] size:_maskRep.size]);
+        _maskRep = [newMask bitmapImageRepresentation];
+        _scribbleView.image = newMask;
     }
 }
 
@@ -149,9 +164,8 @@ static void *VMBrushImageViewContext = nil;
 #pragma mark Basic Operations
 - (void)setRawImage:(NSImage *)image
 {
-    _rawImage = [image copy];
-    [self createMaskImageFor:_rawImage];
-    self.image = _rawImage;
+    [self createMaskImageFor:image];
+    self.image = image;
     _scribbleView.image = nil;
     [self needsDisplay];
 }
